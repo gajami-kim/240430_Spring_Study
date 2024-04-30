@@ -1,0 +1,17 @@
+package com.ezen.test.repository;
+
+import java.util.List;
+
+import com.ezen.test.domain.CommentVO;
+
+public interface CommentDAO {
+
+	int post(CommentVO cvo);
+
+	List<CommentVO> getList(int bno);
+
+	int update(CommentVO cvo);
+
+	int remove(int cno);
+
+}

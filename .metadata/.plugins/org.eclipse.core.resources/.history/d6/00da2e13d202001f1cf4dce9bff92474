@@ -1,0 +1,47 @@
+package com.ezen.test.service;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.ezen.test.domain.MemberVO;
+import com.ezen.test.repository.MemberDAO;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequiredArgsConstructor
+@Slf4j
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	private final MemberDAO mdao;
+	
+	final BCryptPasswordEncoder passwordEncoder;
+
+	@Override
+	public int insert(MemberVO mvo) {
+		log.info("member insert service in");
+		//id가 중복되는 경우 회원가입 실패
+		//id만 주고 DB에서 일치하는 mvo 객체가 있는지 체크하기 위해 mvo 객체를 리턴
+		// => 일치하는 객체가 있으면 가입X / 없으면 가입
+		MemberVO tempMvo = mdao.getUser(mvo.getId());
+		if(tempMvo!=null) {
+			//기존 id가 있는 경우
+			return 0;
+		}
+		
+		//pw가 null이거나 값이 없다면 가입X
+		if(mvo.getId()==null || mvo.getId().length()==0) {
+			return -1;
+		}
+		if(mvo.getPw()==null || mvo.getPw().length()==0) {
+			return -1;
+		}
+		
+		//id가 중복되지 않고 값이 모두 있다면 회원가입 진행
+		//pw 암호화하여 가입
+		
+		return 0;
+	}
+	
+}

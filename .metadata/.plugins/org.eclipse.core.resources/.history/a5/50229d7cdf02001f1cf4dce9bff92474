@@ -1,0 +1,59 @@
+package com.ezen.test.controller;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ezen.test.domain.MemberVO;
+import com.ezen.test.service.MemberService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+@RequestMapping("/member/*")
+@Controller
+public class MemberController {
+		
+	private final MemberService msv;
+
+	@GetMapping("/register")
+	public void register() {}
+
+	@PostMapping("/register")
+	public String register(MemberVO mvo) {
+		log.info(">>>> mvo >>>> {}", mvo);
+		int isOk = msv.insert(mvo);
+		return "index";
+	}
+	
+	@GetMapping("/login")
+	public void login() {}
+	
+	@PostMapping("/login")
+	public String login(MemberVO mvo, HttpServletRequest request, Model m) {
+		log.info(">>>> login >>>> {}", mvo);
+		
+		//mvo 객체가 DB의 값과 일치하면 객체를 가져옴(세션에 저장(로그인행위))
+		MemberVO loginmvo = msv.isUser(mvo);
+		log.info(">>>> login mvo >>>> {}", loginmvo);
+		
+		if(loginmvo!=null) {
+			//로그인 성공시
+			HttpSession ses = request.getSession();
+			ses.setAttribute("ses", loginmvo); //세션에 로그인객체 저장
+		} else {
+			m.addAttribute("msg_login", "1");
+		}
+		return "index";
+	}
+	
+}

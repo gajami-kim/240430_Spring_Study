@@ -1,0 +1,7 @@
+package com.ezen.test.controller;
+
+public class MemberController {
+	
+	private final MemberService msv;
+
+}

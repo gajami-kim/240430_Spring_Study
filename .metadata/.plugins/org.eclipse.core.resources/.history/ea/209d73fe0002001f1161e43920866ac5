@@ -1,0 +1,58 @@
+package com.ezen.test.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ezen.test.domain.BoardVO;
+import com.ezen.test.service.BoardService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequestMapping("/board/*")
+@Slf4j
+@RequiredArgsConstructor
+@Controller
+public class BoardController {
+	
+	private final BoardService bsv;
+	
+	@GetMapping("/register")
+	public String register() {
+		//return 타입은 목적지 경로에 대한 타입(destPage가 리턴)
+		return "/board/register";
+	}
+	
+	//@RequestParam("name")String name : 파라미터를 받을 때
+	@PostMapping("/insert")
+	public String insert(BoardVO bvo) {
+		log.info(">>>> bvo >>>> {}",bvo);
+		int isOk = bsv.insert(bvo);
+		return "index";
+	}
+	
+	@GetMapping("/list")
+	public String list(Model m) {
+		//Model 객체 => request.setAttribute 역할을 하는 객체
+		List<BoardVO> list = bsv.getList();
+		m.addAttribute("list", list);
+		return "/board/list";
+	}
+	
+	//detail => /board/detail => return /board/detail 
+	//modify => /board/modify => return /board/modify
+	//controller로 들어오는 경로와 jsp로 나가는 경로가 일치하면 void 처리 가능
+	@GetMapping({"/detail","/modify"})
+	public void detail(Model m, @RequestParam("bno")int bno) {
+		log.info(">>>> bno >>>> {}",bno);
+		BoardVO bvo = bsv.getDetail(bno);
+		m.addAttribute("bvo",bvo);
+	}
+
+}

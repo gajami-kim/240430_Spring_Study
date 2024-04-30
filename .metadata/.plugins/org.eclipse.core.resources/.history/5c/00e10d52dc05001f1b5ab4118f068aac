@@ -1,0 +1,35 @@
+package com.ezen.test.handler;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ezen.test.domain.FileVO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class FileHandler {
+
+	//실제 파일이 저장되는 경로
+	private final String UP_DIR="D:\\_myProject\\_java\\_fileUpload";
+
+	public List<FileVO> uploadFiles(MultipartFile[] files) {
+		//리턴 객체 생성
+		List<FileVO> flist = new ArrayList<FileVO>();
+		
+		//MultipartFile[] 받아서 FileVO 형태의 list로 리턴
+		//오늘날짜로 경로 생성(가변형태로 저장) 년 월 일 폴더생성
+		
+		//오늘날짜로 경로 생성
+		LocalDate date = LocalDate.now();
+		String today = date.toString();
+		log.info(today);
+		
+		
+		return flist;
+	}
+
+}

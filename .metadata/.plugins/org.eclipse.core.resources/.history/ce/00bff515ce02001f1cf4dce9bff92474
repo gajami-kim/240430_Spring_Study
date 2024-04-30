@@ -1,0 +1,24 @@
+package com.ezen.test.service;
+
+import org.springframework.stereotype.Service;
+
+import com.ezen.test.domain.MemberVO;
+import com.ezen.test.repository.MemberDAO;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequiredArgsConstructor
+@Slf4j
+@Service
+public class MemberServiceImpl implements MemberService {
+
+	private final MemberDAO mdao;
+
+	@Override
+	public int insert(MemberVO mvo) {
+		log.info("member insert service in");
+		return mdao.insert(mvo);
+	}
+	
+}

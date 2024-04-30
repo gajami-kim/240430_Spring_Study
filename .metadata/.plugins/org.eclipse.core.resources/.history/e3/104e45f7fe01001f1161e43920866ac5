@@ -1,0 +1,47 @@
+package com.ezen.test.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ezen.test.domain.BoardVO;
+import com.ezen.test.service.BoardService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequestMapping("/board/*")
+@Slf4j
+@RequiredArgsConstructor
+@Controller
+public class BoardController {
+	
+	private final BoardService bsv;
+	
+	@GetMapping("/register")
+	public String register() {
+		//return 타입은 목적지 경로에 대한 타입(destPage가 리턴)
+		return "/board/register";
+	}
+	
+	//@RequestParam("name")String name : 파라미터를 받을 때
+	@PostMapping("/insert")
+	public String insert(BoardVO bvo) {
+		log.info(">>>> bvo >>>> {}",bvo);
+		int isOk = bsv.insert(bvo);
+		return "index";
+	}
+	
+	@GetMapping("/list")
+	public String list(Model m) {
+		//Model 객체 => request.setAttribute 역할을 하는 객체
+		List<BoardVO> list = bsv.getList();
+		m.addAttribute("list", list);
+		return "/board/list";
+	}
+
+}
