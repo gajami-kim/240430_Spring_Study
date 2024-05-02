@@ -2,8 +2,6 @@ package com.ezen.www.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.www.domain.BoardVO;
+import com.ezen.www.domain.PagingVO;
+import com.ezen.www.handler.PagingHandler;
 import com.ezen.www.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,11 +36,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list")
-	public void list(Model m) {
-		List<BoardVO> list = bsv.getList();
-		//가져온 리스트 => /board/list.jsp로 전달
+	public void list(Model m, PagingVO pgvo) {
+		log.info(">> pagingVO >> {}", pgvo);
+		List<BoardVO> list = bsv.getList(pgvo);
+		
+		//totalCount 구해오기
+		int totalCount = bsv.getTotal(pgvo);
+		
+		//페이징핸들러 사용
+		PagingHandler ph = new PagingHandler(pgvo, totalCount);
+		
+		//Model m : 가져온 리스트 => /board/list.jsp로 전달하는 역할
 		m.addAttribute("list", list);
-		log.info(">>>list>>> {}", list);
+		m.addAttribute("ph", ph);
+		log.info(">>>ph>>> {}", ph);
 	}
 	
 	@GetMapping({"/detail","/modify"})
@@ -57,7 +66,7 @@ public class BoardController {
 			re.addFlashAttribute("msg_bd_modify","1");
 		}
 		
-		//이런방법으로 bno를 detail로 넘길 수 있다
+		//이런방법으로도 bno를 detail로 넘길 수 있다
 //		re.addAttribute("bno", bvo.getBno());
 //		return "redirect:/board/detail";
 		return "redirect:/board/detail?bno="+bvo.getBno();

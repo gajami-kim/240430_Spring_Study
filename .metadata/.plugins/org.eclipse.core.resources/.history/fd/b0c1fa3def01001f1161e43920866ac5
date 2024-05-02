@@ -1,9 +1,0 @@
-package com.ezen.test.service;
-
-import com.ezen.test.domain.BoardVO;
-
-public interface BoardService {
-
-	int insert(BoardVO bvo);
-
-}
