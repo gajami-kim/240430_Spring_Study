@@ -19,5 +19,15 @@
   <select id="getSelectOneBnoTotalCount" resultType="int">
   	select count(cno) from comment where bno=#{bno}
   </select>
+  
+  <update id="modify">
+  	update comment set content=#{content}
+  	where cno=#{cno}
+  </update>
+  
+  <delete id="remove">
+  	delete from comment
+  	where cno=#{cno}
+  </delete>
 
   </mapper>

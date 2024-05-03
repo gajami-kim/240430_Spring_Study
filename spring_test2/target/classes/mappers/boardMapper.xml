@@ -35,6 +35,10 @@
   	<include refid="search"></include>
   </select>
   
+  <select id="selectCnoBno" resultType="int">
+  	select max(bno) from board where is_del='N'
+  </select>
+  
   <!-- 검색 -->
   <sql id="search">
   	<if test="type!=null">

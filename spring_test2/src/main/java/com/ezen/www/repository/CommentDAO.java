@@ -14,5 +14,9 @@ public interface CommentDAO {
 	List<CommentVO> getList(@Param("bno")int bno, @Param("pgvo")PagingVO pgvo);
 
 	int getSelectOneBnoTotalCount(int bno);
+
+	int modify(CommentVO cvo);
+
+	int remove(int cno);
 	
 }
