@@ -180,7 +180,7 @@
 		</dependency>
 		
 		<!-- spring-security- 5.5.3 -->
-		<!-- core-5.5.3 / web-5.5.3 / config-5.5.3 -->
+		<!-- core-5.5.3 / web-5.5.3 / config-5.5.3 / security-tag-lib 5.5.3 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -199,6 +199,13 @@
 		    <artifactId>spring-security-config</artifactId>
 		    <version>5.5.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+				
 		
 		<!-- 댓글관련 json 처리 -->
 		<!-- jackson-databind 2.13.0 / jackson-dataformat-xml 2.13.0 -->
@@ -248,6 +255,22 @@
 		    <version>2.4.1</version>
 		    <type>pom</type>
 		</dependency>
+		
+		<!-- scheduler 관련 -->
+		<!-- quartz 2.3.2 / quartz-jobs 2.3.2 -->
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		
 	
 		<!-- Test -->
 		<dependency>

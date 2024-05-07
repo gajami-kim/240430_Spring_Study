@@ -3,6 +3,7 @@ package com.ezen.www.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezen.www.domain.BoardDTO;
 import com.ezen.www.domain.BoardVO;
@@ -48,14 +49,30 @@ public class BoardServiceImpl implements BoardService{
 		return bdao.getList(pgvo);
 	}
 
+	@Transactional
 	@Override
-	public BoardVO getDetail(int bno) {
-		return bdao.getDetail(bno);
+	public BoardDTO getDetail(int bno) {
+		//bvo, flist 묶어서 DTO return
+		BoardVO bvo = bdao.getDetail(bno);
+		List<FileVO> flist = fdao.getList(bno);
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		return bdto;
 	}
 
+	@Transactional
 	@Override
-	public int update(BoardVO bvo) {
-		return bdao.update(bvo);
+	public int update(BoardDTO bdto) {
+		int isOk = bdao.update(bdto.getBvo());
+		if(bdto.getFlist()==null) {
+			return 0;
+		}
+		if(isOk>0&&bdto.getFlist().size()>0) {
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bdto.getBvo().getBno());
+				isOk*=fdao.insertFile(fvo);
+			}
+		}
+		return isOk;
 	}
 
 	@Override
@@ -67,6 +84,14 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotal(PagingVO pgvo) {
 		return bdao.getTotal(pgvo);
 	}
+
+	@Override
+	public int removeFile(String uuid) {
+		int isOk = fdao.removeFile(uuid);
+		return isOk;
+	}
+
+	
 
 	
 }

@@ -9,4 +9,16 @@
   	values (#{uuid}, #{saveDir}, #{fileName}, #{fileType}, #{bno}, #{fileSize})
   </insert>
   
+  <select id="getList" resultType="com.ezen.www.domain.FileVO">
+  	select * from file where bno=#{bno}
+  </select>
+  
+  <delete id="removeFile">
+  	delete from file where uuid=#{uuid}
+  </delete>
+  
+  <select id="selectListAllFile" resultType="com.ezen.www.domain.FileVO">
+  	select * from file
+  </select>
+  
   </mapper>

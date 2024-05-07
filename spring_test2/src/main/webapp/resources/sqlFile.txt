@@ -1,0 +1,14 @@
+--2024-05-07
+create table user(
+email varchar(100) not null,
+pwd varchar(256) not null,
+nick_name varchar(100) not null,
+reg_date datetime default now(),
+last_login datetime default null,
+primary key(email));
+
+create table auth_user(
+email varchar(100) not null,
+auth varchar(50) not null);
+
+alter table auth_user add constraint fk_auth foreign key(email) references user(email);
