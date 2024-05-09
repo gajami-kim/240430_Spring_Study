@@ -39,6 +39,28 @@
   	select max(bno) from board where is_del='N'
   </select>
   
+  <update id="cmtCountupdate">
+  	update board b set cmt_qty = (
+	select count(bno) from comment where bno=b.bno)
+  </update>
+  
+  <update id="fileCountupdate">
+  	update board b set has_file = (
+	select count(bno) from file where bno=b.bno)
+  </update>
+  
+  <update id="updateComment">
+  	update board set cmt_qty = cmt_qty+#{cnt} where bno=#{bno} 
+  </update>
+  
+  <update id="updateReadCount">
+  	update board set read_count = read_count+1 where bno=#{bno}
+  </update>
+  
+  <update id="fileCount">
+  	update board set has_file = has_file-1 where bno=#{bno} 
+  </update>
+  
   <!-- 검색 -->
   <sql id="search">
   	<if test="type!=null">

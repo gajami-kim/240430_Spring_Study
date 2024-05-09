@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <jsp:include page="../layout/header.jsp" />
 
 <div class="container-sm">
@@ -69,8 +70,9 @@
 	
 	<!-- Comment Line -->
 	<!-- 댓글 등록 라인 -->
+	<sec:authentication property="principal.uvo.nickName" var="authNick" />
 	<div class="input-group mb-3">
-	  <span class="input-group-text" id="cmtWriter">Tester</span>
+	  <span class="input-group-text" id="cmtWriter">${authNick }</span>
 	  <input type="text" id="cmtText" class="form-control" placeholder="Add Comment.." aria-label="Username" aria-describedby="basic-addon1">
 	  <button type="button" id="cmtAddBtn" class="btn btn-secondary">댓글등록</button>
 	</div>
@@ -79,7 +81,7 @@
 	<ul class="list-group" id="cmtListArea">
 	  <li class="list-group-item">
 	  	<div class="input-group mb-3">
-	  		<div class="fw-bold">Writer</div>
+	  		<div class="fw-bold">${authNick }</div>
 	  		content
 	  	</div>
 	  	<span class="badge rounded-pill text-bg-primary">regDate</span>
@@ -96,7 +98,7 @@
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title">Writer</h5>
+	        <h5 class="modal-title">${authNick }</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
@@ -111,8 +113,11 @@
 	</div>
 	
 	<br><hr>
-	<a href="/board/modify?bno=${bvo.bno }"><button type="button" class="btn btn-primary">수정</button></a>
-	<a href="/board/remove?bno=${bvo.bno }"><button type="button" class="btn btn-warning">삭제</button></a>
+	<sec:authentication property="principal.uvo.nickName" var="authNick" />
+	<c:if test="${bvo.writer eq authNick }">
+		<a href="/board/modify?bno=${bvo.bno }"><button type="button" class="btn btn-primary">수정</button></a>
+		<a href="/board/remove?bno=${bvo.bno }"><button type="button" class="btn btn-warning">삭제</button></a>
+	</c:if>
 	<br><br>
 	<a href="/board/list"><button type="button" class="btn btn-secondary">list</button></a>
 	<br><br>
@@ -129,6 +134,8 @@
 <script type="text/javascript">
 	const bnoVal = `<c:out value="${bvo.bno}" />`;
 	console.log(bnoVal);
+	const authNick = `<c:out value="${authNick}" />`;
+	console.log(authNick);
 	/* const id = `<c:out value="${ses.id}" />`; */
 </script>
 

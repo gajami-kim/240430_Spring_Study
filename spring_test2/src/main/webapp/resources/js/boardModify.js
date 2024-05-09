@@ -4,9 +4,10 @@ document.addEventListener('click',(e)=>{
     console.log(e.target);
     if(e.target.classList.contains('file-x')){
         let uuid = e.target.dataset.uuid;
+        let bno = e.target.dataset.bno;
         console.log(uuid);
 
-        removeFileFromServer(uuid).then(result=>{
+        removeFileFromServer(uuid, bno).then(result=>{
             if(result==1) {
                 alert("파일 삭제");
                 e.target.closest('li').remove();
@@ -15,9 +16,9 @@ document.addEventListener('click',(e)=>{
     }
 })
 
-async function removeFileFromServer(uuid){
+async function removeFileFromServer(uuid,bno){
     try {
-        const url = "/board/"+uuid;
+        const url = "/board/"+uuid+"/"+"bno"+bno;
         const config = {
             method:"delete"
         }

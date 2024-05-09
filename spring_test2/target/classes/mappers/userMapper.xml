@@ -9,4 +9,47 @@
   	values (#{email},#{pwd},#{nickName})
   </insert>
   
+  <insert id="insertAuthInit">
+  	insert into auth_user values (#{email}, 'ROLE_USER')
+  </insert>
+  
+  <select id="selectEmail" resultType="com.ezen.www.domain.UserVO">
+  	select * from user where email=#{email}
+  </select>
+  
+  <select id="selectAuths" resultType="com.ezen.www.domain.AuthVO">
+  	select * from auth_user where email=#{email}
+  </select>
+  
+  <update id="updateLastLogin">
+  	update user set last_login=now() where email=#{email}
+  </update>
+  
+  <select id="getList" resultType="com.ezen.www.domain.UserVO">
+  	select * from user
+  </select>
+  
+  <update id="modify">
+  	update user set pwd=#{pwd}, nick_name=#{nickName} where email=#{email}
+  </update>
+  
+  <update id="modifynick">
+  	update user set nick_name=#{nickName} where email=#{email}
+  </update>
+  
+  <delete id="deleteAuth">
+  	delete from auth_user where email=#{email}
+  </delete>
+  
+  <delete id="delete">
+  	delete from user where email=#{email}
+  </delete>
+  
+  <select id="checknick" resultType="int">
+  	select count(nick_name) as c 
+  	from user
+	group by nick_name
+	having c>1
+  </select>
+  
   </mapper>

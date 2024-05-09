@@ -52,6 +52,8 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public BoardDTO getDetail(int bno) {
+		//readCount
+		bdao.updateReadCount(bno);
 		//bvo, flist 묶어서 DTO return
 		BoardVO bvo = bdao.getDetail(bno);
 		List<FileVO> flist = fdao.getList(bno);
@@ -86,12 +88,28 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int removeFile(String uuid) {
+	public int removeFile(String uuid, int bno) {
 		int isOk = fdao.removeFile(uuid);
+		if(isOk>0) {
+			bdao.fileCount(bno);
+		}
 		return isOk;
 	}
 
-	
+	@Override
+	public void cmtCountupdate() {
+		bdao.cmtCountupdate();
+	}
 
+	@Override
+	public void fileCountupdate() {
+		bdao.fileCountupdate();
+	}
+
+	@Override
+	public int updateComment(int bno) {
+		int cnt=-1;
+		return bdao.updateComment(bno, cnt);
+	}
 	
 }

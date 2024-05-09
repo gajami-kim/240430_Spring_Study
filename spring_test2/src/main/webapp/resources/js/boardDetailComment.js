@@ -1,4 +1,5 @@
 console.log("board comment mod 연결");
+console.log("authNick 찾아오기 >>", authNick);
 
 document.getElementById('cmtAddBtn').addEventListener('click',()=>{
     const cmtText = document.getElementById('cmtText').value;
@@ -73,8 +74,10 @@ function spreadCommentList(bno,page=1) {
                 li+=`<div class="fw-bold">${cvo.writer}</div>${cvo.content}</div>`;
                 li+=`<span class="badge rounded-pill text-bg-primary">${cvo.regDate}</span>`
                 //수정, 삭제 버튼
-                li+=`&nbsp;<button type="button" class="btn btn-sm btn-outline-warning mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
-                li+=`&nbsp;<button type="button" data-cno="${cvo.cno}" class="btn btn-sm btn-outline-danger del">삭제</button>`;
+                if(cvo.writer == authNick) {
+                    li+=`&nbsp;<button type="button" class="btn btn-sm btn-outline-warning mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+                    li+=`&nbsp;<button type="button" data-cno="${cvo.cno}" class="btn btn-sm btn-outline-danger del">삭제</button>`;
+                }
                 li+=`</li>`;
                 ul.innerHTML+=li;
             }

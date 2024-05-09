@@ -56,6 +56,11 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(Model m, PagingVO pgvo) {
 		log.info(">> pagingVO >> {}", pgvo);
+		
+		//cmt_qty, read_count 기존값 반영하기
+		bsv.cmtCountupdate();
+		bsv.fileCountupdate();
+		
 		List<BoardVO> list = bsv.getList(pgvo);
 		
 		//totalCount 구해오기
@@ -112,11 +117,10 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@DeleteMapping("/{uuid}")
-	public String removeFile(@PathVariable("uuid")String uuid){
-		int isOk = bsv.removeFile(uuid);
+	@DeleteMapping("/{uuid}/{bno}")
+	public String removeFile(@PathVariable("uuid")String uuid,@PathVariable("bno")int bno){
+		int isOk = bsv.removeFile(uuid,bno);
 		return isOk>0? "1":"0";
 	}
-
 
 }

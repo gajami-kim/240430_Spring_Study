@@ -12,4 +12,11 @@
 	<br>
 </div>
 
+<script type="text/javascript">
+	const msg_delete = `<c:out value="${msg_delete}" />`
+	if(msg_delete=='1'){
+		alert('탈퇴완료');
+	}
+</script>
+
 <jsp:include page="layout/footer.jsp"></jsp:include>

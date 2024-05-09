@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.www.domain.CommentVO;
 import com.ezen.www.domain.PagingVO;
 import com.ezen.www.handler.PagingHandler;
+import com.ezen.www.service.BoardService;
 import com.ezen.www.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,14 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 
 	private final CommentService csv;
+	private final BoardService bsv;
 	
 	//메서드, 헤더, 바디가 모두 들어간(Entity를 모두 구성한) 방법
 	@PostMapping(value="/post", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> post(@RequestBody CommentVO cvo) {
 		log.info(">>cvo>>{}",cvo);
 		int isOk = csv.post(cvo);
+		int isOk_com = bsv.updateComment(cvo.getBno());
 		return isOk>0? new ResponseEntity<String>("1", HttpStatus.OK) : 
 			new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
