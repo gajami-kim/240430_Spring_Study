@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService{
 		log.info("pw 수정 uvo>>{}", uvo);
 	}
 
+	@Transactional
 	@Override
 	public int delete(String email) {
 		int isOk = udao.deleteAuth(email);

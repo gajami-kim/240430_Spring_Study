@@ -77,6 +77,20 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+//	@PostMapping("/modify")
+//	public String modify(UserVO uvo, HttpServletRequest request, HttpServletResponse response) {
+//		if(uvo.getPwd().isEmpty() || uvo.getPwd().length()==0) {
+//			//비밀번호 다시 입력받지 않는 경우
+//			int isOk = usv.modifyPwdEmpty(uvo)
+//		} else {
+//			//비밀번호 다시 입력받는 경우
+//			usv.modify(uvo);
+//		}			
+//		logout(request, response);
+//		return "redirect:/";
+//	}
+	
+	
 	@GetMapping("/delete")
 	public String delete(String email, RedirectAttributes re, HttpServletRequest request, HttpServletResponse response) {
 		int isOk = usv.delete(email);
@@ -84,6 +98,12 @@ public class UserController {
 		logout(request, response);
 		return "redirect:/";
 	}
+	
+//	이런식으로 principal을 매개변수로 받아 값을 가져오는 방법도 있다
+//	public void delete(Principal principal){
+//		String email = principal.getName(); //email값을 가져옴
+//		int isOk = usv.delete(email);
+//	}
 	
 	@ResponseBody
 	@PostMapping("/{email}")
